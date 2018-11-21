@@ -62,7 +62,10 @@ TABLE_FASTA2BIN = {'A': '00', 'G': '01', 'T': '10', 'C': '11'}
 @click.option(
     '-D', '--decode', is_flag=True, default=False,
     help='Enable conversion from FASTA to binary.')
-def main(filename, decode):
+@click.option(
+    '-o', '--output', type=click.File('w'), default='-',
+    help='File to write to.')
+def main(filename, decode, output):
     """Store any file as a fasta file"""
     if decode:
         with SequenceReader(filename, mode='r') as fd:
@@ -78,23 +81,23 @@ def main(filename, decode):
                     data = ''
 
                     byte = int_.to_bytes(1, byteorder=sys.byteorder)
-                    sys.stdout.buffer.write(byte)
+                    output.buffer.write(byte)
     else:
         section_length = 250
 
-        sys.stdout.write('>Sequence_master\n')
+        output.write('>Sequence_master\n')
         with BitReader(filename, mode='rb') as fd:
             last = None
             for i, bit in enumerate(tqdm(fd.read())):
                 if (i+1) % section_length == 0:
-                    sys.stdout.write(f'\n>Sequence_{hex(i)}\n')
+                    output.write(f'\n>Sequence_{hex(i)}\n')
 
                 if last is None:
                     last = bit
                 else:
                     out = TABLE_BIN2FASTA[last][bit]
                     last = None
-                    sys.stdout.write(out)
+                    output.write(out)
 
 
 if __name__ == '__main__':
