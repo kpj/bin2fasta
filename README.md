@@ -16,18 +16,18 @@ $ pip install bin2fasta
 ## Usage
 
 ```bash
-$ file foo.webm
-foo.webm: WebM
-$ bin2fasta foo.webm > bar.fasta
-1343440it [00:01, 1132297.03it/s]
+$ file foo.png
+foo.png: PNG image data, 618 x 257, 8-bit/color RGBA, non-interlaced
+$ bin2fasta -o bar.fasta foo.png
+319400it [00:00, 683649.99it/s]
 $ head -c50 bar.fasta
 >Sequence_master
 AGTTGAGGCGCCTTACTGCCGAATTAGTTAAGA
-$ bin2fasta --decode bar.fasta > baz.webm
-671720it [00:01, 452470.18it/s]
-$ file baz.webm
-baz.webm: WebM
-$ diff foo.webm baz.webm
+$ bin2fasta --decode -o baz.png bar.fasta
+159700it [00:00, 455825.67it/s]
+$ file baz.png
+baz.png: PNG image data, 618 x 257, 8-bit/color RGBA, non-interlaced
+$ diff foo.png baz.png
 $
 ```
 
