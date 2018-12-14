@@ -17,8 +17,9 @@ click = "^7.0"
 tqdm = "^4.28"
 
 
-[tool.poetry.scripts]
-bin2fasta = 'bin2fasta:main'
-
 [tool.poetry.dev-dependencies]
 pytest = "^4.0"
+
+
+[tool.poetry.scripts]
+bin2fasta = 'bin2fasta:main'
