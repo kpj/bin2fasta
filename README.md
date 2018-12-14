@@ -31,6 +31,14 @@ $ diff foo.png baz.png
 $
 ```
 
+Note that you can easily chain multiple commands by piping their respective outputs and using `-`:
+```bash
+$ cat foo.png | xz | gpg -c | bin2fasta - > bar.fasta
+$ cat bar.fasta | bin2fasta -D - | gpg -d | xz --decompress > baz.png
+$ diff foo.png baz.png
+$
+```
+
 
 ## Poetry workflow
 

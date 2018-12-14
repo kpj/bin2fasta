@@ -13,7 +13,10 @@ class FileStreamer:
         self.fd = None
 
     def __enter__(self):
-        self.fd = open(self.fname, self.mode)
+        if self.fname == '-':
+            self.fd = sys.stdin.buffer if 'b' in self.mode else sys.stdin
+        else:
+            self.fd = open(self.fname, self.mode)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -58,7 +61,7 @@ TABLE_FASTA2BIN = {'A': '00', 'G': '01', 'T': '10', 'C': '11'}
 
 
 @click.command()
-@click.argument('filename', type=click.Path(exists=True))
+@click.argument('filename', type=click.Path(exists=True, allow_dash=True))
 @click.option(
     '-D', '--decode', is_flag=True, default=False,
     help='Enable conversion from FASTA to binary.')
