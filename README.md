@@ -16,6 +16,20 @@ $ pip install bin2fasta
 ## Usage
 
 ```bash
+$ bin2fasta --help
+Usage: bin2fasta [OPTIONS] FILENAME
+
+  Store any file as a fasta file
+
+Options:
+  -D, --decode           Enable conversion from FASTA to
+                         binary.
+  -o, --output FILENAME  File to write to.
+  --help                 Show this message and exit.
+```
+
+Basic example:
+```bash
 $ file foo.png
 foo.png: PNG image data, 618 x 257, 8-bit/color RGBA, non-interlaced
 $ bin2fasta -o bar.fasta foo.png
