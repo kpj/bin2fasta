@@ -1,4 +1,5 @@
 import sys
+import random
 
 import click
 from tqdm import tqdm
@@ -87,13 +88,20 @@ def main(filename, decode, output):
                     output.buffer.write(byte)
     else:
         section_length = 250
+        read_header = '>SRX{seq_id}.{{read_counter}}.1 {{read_counter}} length={{section_length}}\n'.format(seq_id=random.randint(100000, 9999999))
+        read_counter = 2
 
-        output.write('>Sequence_master\n')
+        output.write(read_header.format(
+            read_counter=1, section_length=section_length))
         with BitReader(filename, mode='rb') as fd:
             last = None
             for i, bit in enumerate(tqdm(fd.read())):
                 if (i+1) % section_length == 0:
-                    output.write(f'\n>Sequence_{hex(i)}\n')
+                    output.write('\n')
+                    output.write(read_header.format(
+                        read_counter=read_counter,
+                        section_length=section_length))
+                    read_counter += 1
 
                 if last is None:
                     last = bit
