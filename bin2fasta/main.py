@@ -15,7 +15,15 @@ class FileStreamer:
 
     def __enter__(self):
         if self.fname == '-':
-            self.fd = sys.stdin.buffer if 'b' in self.mode else sys.stdin
+            if 'w' in self.mode:
+                self.fd = sys.stdout
+            elif 'r' in self.mode:
+                self.fd = sys.stdin
+            else:
+                raise ValueError(f'invalid mode: "{self.mode}"')
+
+            if 'b' in self.mode:
+                self.fd = self.fd.buffer
         else:
             self.fd = open(self.fname, self.mode)
         return self
