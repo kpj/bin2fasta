@@ -14,10 +14,8 @@ def test_integration():
             fd.write(content)
 
         # run conversions
-        result_b2f = runner.invoke(
-            main, [fname, '-o', 'tmp.fasta'])
-        result_f2b = runner.invoke(
-            main, ['--decode', '-o', 'out.dat', 'tmp.fasta'])
+        result_b2f = runner.invoke(main, [fname, '-o', 'tmp.fasta'])
+        result_f2b = runner.invoke(main, ['--decode', '-o', 'out.dat', 'tmp.fasta'])
 
         assert result_b2f.exit_code == 0
         assert result_f2b.exit_code == 0

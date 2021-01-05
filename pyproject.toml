@@ -24,3 +24,7 @@ black = "^20.8b1"
 
 [tool.poetry.scripts]
 bin2fasta = 'bin2fasta:main'
+
+
+[tool.black]
+skip_string_normalization = true

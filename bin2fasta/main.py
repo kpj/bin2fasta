@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 class FileStreamer:
     """Generic file opener context"""
+
     def __init__(self, fname, mode):
         self.fname = fname
         self.mode = mode
@@ -34,6 +35,7 @@ class FileStreamer:
 
 class BitReader(FileStreamer):
     """Read individual bits of file"""
+
     def read(self):
         while True:
             byte = self.fd.read(1)
@@ -47,6 +49,7 @@ class BitReader(FileStreamer):
 
 class SequenceReader(FileStreamer):
     """Read only bases from FASTA file"""
+
     def read(self):
         ignore = True
         while True:
@@ -72,11 +75,15 @@ TABLE_FASTA2BIN = {'A': '00', 'G': '01', 'T': '10', 'C': '11'}
 @click.command()
 @click.argument('filename', type=click.Path(exists=True, allow_dash=True))
 @click.option(
-    '-D', '--decode', is_flag=True, default=False,
-    help='Enable conversion from FASTA to binary.')
+    '-D',
+    '--decode',
+    is_flag=True,
+    default=False,
+    help='Enable conversion from FASTA to binary.',
+)
 @click.option(
-    '-o', '--output', type=click.File('w'), default='-',
-    help='File to write to.')
+    '-o', '--output', type=click.File('w'), default='-', help='File to write to.'
+)
 def main(filename, decode, output):
     """Store any file as a fasta file"""
     if decode:
@@ -96,19 +103,22 @@ def main(filename, decode, output):
                     output.buffer.write(byte)
     else:
         section_length = 250
-        read_header = '>SRX{seq_id}.{{read_counter}}.1 {{read_counter}} length={{section_length}}\n'.format(seq_id=random.randint(100000, 9999999))
+        read_header = '>SRX{seq_id}.{{read_counter}}.1 {{read_counter}} length={{section_length}}\n'.format(
+            seq_id=random.randint(100000, 9999999)
+        )
         read_counter = 2
 
-        output.write(read_header.format(
-            read_counter=1, section_length=section_length))
+        output.write(read_header.format(read_counter=1, section_length=section_length))
         with BitReader(filename, mode='rb') as fd:
             last = None
             for i, bit in enumerate(tqdm(fd.read())):
-                if (i+1) % section_length == 0:
+                if (i + 1) % section_length == 0:
                     output.write('\n')
-                    output.write(read_header.format(
-                        read_counter=read_counter,
-                        section_length=section_length))
+                    output.write(
+                        read_header.format(
+                            read_counter=read_counter, section_length=section_length
+                        )
+                    )
                     read_counter += 1
 
                 if last is None:
