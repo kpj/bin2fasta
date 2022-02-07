@@ -4,6 +4,7 @@ Disclaimer: this is only a proof-of-concept (and a joke), please don't actually 
 # bin2fasta
 
 [![pypi version](https://img.shields.io/pypi/v/bin2fasta.svg)](https://pypi.org/project/bin2fasta/)
+[![Tests](https://github.com/kpj/bin2fasta/actions/workflows/main.yml/badge.svg)](https://github.com/kpj/bin2fasta/actions/workflows/main.yml)
 [![license](https://img.shields.io/pypi/l/bin2fasta.svg)](https://pypi.org/project/bin2fasta/)
 
 Store any file as a fasta file!
