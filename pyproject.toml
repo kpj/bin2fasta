@@ -18,7 +18,7 @@ tqdm = "^4.28"
 
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
+pytest = "^7.0"
 black = "^21.4b0"
 
 
