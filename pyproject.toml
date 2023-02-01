@@ -19,7 +19,7 @@ tqdm = "^4.28"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0"
-black = "^22.1"
+black = "^23.1"
 
 
 [tool.poetry.scripts]
